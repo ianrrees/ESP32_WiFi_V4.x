@@ -37,20 +37,20 @@ ESP32-gateway modules from the OpenEnergyMonitor store come pre-loaded with firm
 
 Pre-compiled FW can be downloaded from the [repo releases page](https://github.com/OpenEVSE/ESP32_WiFi_V3.x/releases/), look for `esp32-gateway-e.bin`
 
-ESP32-gateway can be connected by micro USB and firmware can be uploaded using esptool:
+ESP32-gateway can be connected by micro USB and firmware can be uploaded using esptool, to install esptool, `python3 -m pip install esptool`.
 
 ### For rev E
 
 First upload:
 
 ```bash
-esptool esptool.py --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x8000  partitions.bin 0x10000  openevse_esp32-gateway-e.bin
+esptool.py --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 bootloader.bin 0x8000  partitions.bin 0x10000 openevse_esp32-gateway-e.bin
 ```
 
 Subsequent upgrades:
 
 ```bash
-esptool esptool.py --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x1000 0x10000  openevse_esp32-gateway-e.bin
+esptool.py --baud 921600 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size detect 0x10000 openevse_esp32-gateway-e.bin
 ```
 
 ### For rev G
