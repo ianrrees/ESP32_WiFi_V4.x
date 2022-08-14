@@ -6,7 +6,7 @@
 #ifndef MONGOOSE_OCPP_SOCKET_CLIENT_H
 #define MONGOOSE_OCPP_SOCKET_CLIENT_H
 
-#include <MongooseCore.h>
+#include "MongooseCore.h"
 #define MG_F_IS_MongooseOcppSocketClient MG_F_USER_2
 
 #include <ArduinoOcpp/Core/OcppSocket.h>

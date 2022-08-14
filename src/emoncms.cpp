@@ -52,9 +52,13 @@ void emoncms_publish(JsonDocument &data)
     String json;
     serializeJson(data, json);
     url += "fulljson=";
-    MongooseString encodedJson = mg_url_encode(MongooseString(json));
+    // TODO
+    // MongooseString encodedJson = mg_url_encode(MongooseString(json));
+    MongooseString encodedJson;
+
     url += (const char *)encodedJson;
-    mg_strfree(encodedJson);
+    // TODO
+    // mg_strfree(encodedJson);
     url += "&node=";
     url += emoncms_node;
     url += "&apikey=";

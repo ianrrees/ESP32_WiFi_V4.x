@@ -66,7 +66,8 @@ MongooseOcppSocketClient::~MongooseOcppSocketClient() {
         connection_established = false;
         ocppIsConnected = connection_established; //need it static for Wi-Fi dashboard
         const char *msg = "socket closed by client";
-        mg_send_websocket_frame(nc, WEBSOCKET_OP_CLOSE, msg, strlen(msg));
+        // TODO
+        // mg_send_websocket_frame(nc, WEBSOCKET_OP_CLOSE, msg, strlen(msg));
         nc = NULL;
     }
 }
@@ -75,15 +76,16 @@ void MongooseOcppSocketClient::mg_event_callback(struct mg_connection *nc, int e
 
     MongooseOcppSocketClient *instance = NULL;
     
-    if (nc->flags & MG_F_IS_WEBSOCKET && nc->flags & MG_F_IS_MongooseOcppSocketClient) {
-        instance = static_cast<MongooseOcppSocketClient*>(user_data);
-    } else {
+    // TODO
+    // if (nc->flags & MG_F_IS_WEBSOCKET && nc->flags & MG_F_IS_MongooseOcppSocketClient) {
+    //     instance = static_cast<MongooseOcppSocketClient*>(user_data);
+    // } else {
         return;
-    }
+    // }
 
-    if (ev != MG_EV_POLL && ev != MG_EV_SEND) {
-        instance->last_recv = millis();
-    }
+    // if (ev != MG_EV_POLL && ev != MG_EV_SEND) {
+    //     instance->last_recv = millis();
+    // }
 
     switch (ev) {
         case MG_EV_CONNECT: {
@@ -96,33 +98,35 @@ void MongooseOcppSocketClient::mg_event_callback(struct mg_connection *nc, int e
             }
             break;
         }
-        case MG_EV_WEBSOCKET_HANDSHAKE_DONE: {
-            struct http_message *hm = (struct http_message *) ev_data;
-            DBUG(F("[MongooseOcppSocketClient] Connection to "));
-            DBUG(instance->ws_url);
-            if (hm->resp_code == 101) {
-                DBUGLN(F(" -- Connected"));
-                instance->connection_established = true;
-                ocppIsConnected = instance->connection_established; //need it static for Wi-Fi dashboard
-            } else {
-                DBUG(F(" -- Connection failed! HTTP code "));
-                DBUGLN(hm->resp_code);
-                /* Connection will be closed after this. */
-            }
-            break;
-        }
+        // TODO
+        // case MG_EV_WEBSOCKET_HANDSHAKE_DONE: {
+        //     struct http_message *hm = (struct http_message *) ev_data;
+        //     DBUG(F("[MongooseOcppSocketClient] Connection to "));
+        //     DBUG(instance->ws_url);
+        //     if (hm->resp_code == 101) {
+        //         DBUGLN(F(" -- Connected"));
+        //         instance->connection_established = true;
+        //         ocppIsConnected = instance->connection_established; //need it static for Wi-Fi dashboard
+        //     } else {
+        //         DBUG(F(" -- Connection failed! HTTP code "));
+        //         DBUGLN(hm->resp_code);
+        //         /* Connection will be closed after this. */
+        //     }
+        //     break;
+        // }
         case MG_EV_POLL: {
             /* Nothing to do here. OCPP engine has own loop-function */
             break;
         }
-        case MG_EV_WEBSOCKET_FRAME: {
-            struct websocket_message *wm = (struct websocket_message *) ev_data;
+        // TODO
+        // case MG_EV_WEBSOCKET_FRAME: {
+        //     struct websocket_message *wm = (struct websocket_message *) ev_data;
 
-            if (!instance->receiveTXT((const char *) wm->data, wm->size)) { //forward message to OcppEngine
-                DBUGLN(F("[MongooseOcppSocketClient] Processing WebSocket input event failed!"));
-            }
-            break;
-        }
+        //     if (!instance->receiveTXT((const char *) wm->data, wm->size)) { //forward message to OcppEngine
+        //         DBUGLN(F("[MongooseOcppSocketClient] Processing WebSocket input event failed!"));
+        //     }
+        //     break;
+        // }
         case MG_EV_CLOSE: {
             instance->connection_established = false;
             ocppIsConnected = instance->connection_established; //need it static for Wi-Fi dashboard
@@ -172,25 +176,26 @@ void MongooseOcppSocketClient::maintainWsConn() {
     DBUG(F("[MongooseOcppSocketClient] (re-)connect to "));
     DBUGLN(this->ws_url);
 
-    struct mg_connect_opts opts;
-    Mongoose.getDefaultOpts(&opts);
+//     TODO
+//     struct mg_connect_opts opts;
+//     Mongoose.getDefaultOpts(&opts);
 
-#if defined(OCPP_CUSTOM_CA)
-    opts.ssl_ca_cert = ocpp_ca;
-#endif
+// #if defined(OCPP_CUSTOM_CA)
+//     opts.ssl_ca_cert = ocpp_ca;
+// #endif
 
-    opts.error_string = &mongoose_error_string;
+//     opts.error_string = &mongoose_error_string;
 
-    nc = mg_connect_ws_opt(Mongoose.getMgr(), mg_event_callback, this, opts, this->ws_url.c_str(), "ocpp1.6", NULL);
+//     nc = mg_connect_ws_opt(Mongoose.getMgr(), mg_event_callback, this, opts, this->ws_url.c_str(), "ocpp1.6", NULL);
 
-    if (!nc) {
-        DBUG(F("[MongooseOcppSocketClient] Failed to connect to URL: "));
-        DBUGLN(this->ws_url);
-    }
+//     if (!nc) {
+//         DBUG(F("[MongooseOcppSocketClient] Failed to connect to URL: "));
+//         DBUGLN(this->ws_url);
+//     }
 
-    nc->flags |= MG_F_IS_MongooseOcppSocketClient;
+//     nc->flags |= MG_F_IS_MongooseOcppSocketClient;
 
-    last_reconnection_attempt = millis();
+//     last_reconnection_attempt = millis();
 }
 
 void MongooseOcppSocketClient::reconnect(const String &ws_url) {
@@ -200,7 +205,8 @@ void MongooseOcppSocketClient::reconnect(const String &ws_url) {
     ocppIsConnected = connection_established; //need it static for Wi-Fi dashboard
     if (nc) {
         const char *msg = "socket closed by client";
-        mg_send_websocket_frame(nc, WEBSOCKET_OP_CLOSE, msg, strlen(msg));
+        // TODO
+        // mg_send_websocket_frame(nc, WEBSOCKET_OP_CLOSE, msg, strlen(msg));
         nc = NULL;
     }
 
@@ -221,13 +227,14 @@ bool MongooseOcppSocketClient::sendTXT(std::string &out) {
         return false;
     }
 
-    if (nc->send_mbuf.len > 0) {
+    if (nc->send.len > 0) {
         //Something else is already in the queue. This is a strong indicator that the device
         //cannot send at the moment
         return false;
     }
 
-    mg_send_websocket_frame(nc, WEBSOCKET_OP_TEXT, out.c_str(), out.length());
+    // TODO
+    // mg_send_websocket_frame(nc, WEBSOCKET_OP_TEXT, out.c_str(), out.length());
 
     return true; //message was handed over to underlying HTTP-layer
 }
@@ -258,5 +265,7 @@ bool MongooseOcppSocketClient::isValidUrl(const char *url) {
 
     unsigned int port_i = 0;
     struct mg_str scheme, query, fragment;
-    return mg_parse_uri(mg_mk_str(url), &scheme, NULL, NULL, &port_i, NULL, &query, &fragment) == 0; //mg_parse_uri returns 0 on success, false otherwise
+    // TODO
+    // return mg_parse_uri(mg_str(url), &scheme, NULL, NULL, &port_i, NULL, &query, &fragment) == 0; //mg_parse_uri returns 0 on success, false otherwise
+    return false;
 }

@@ -471,13 +471,14 @@ void ArduinoOcppTask::initializeDiagnosticsService() {
 
             //check if input URL is valid
             unsigned int port_i = 0;
-            struct mg_str scheme, query, fragment;
-            if (mg_parse_uri(mg_mk_str(location.c_str()), &scheme, NULL, NULL, &port_i, NULL, &query, &fragment)) {
-                DBUG(F("[ocpp] Diagnostics upload, invalid URL: "));
-                DBUGLN(location.c_str());
-                diagFailure = true;
+            // TODO Mongoose upgrade
+            // struct mg_str scheme, query, fragment;
+            // if (mg_parse_uri(mg_mk_str(location.c_str()), &scheme, NULL, NULL, &port_i, NULL, &query, &fragment)) {
+            //     DBUG(F("[ocpp] Diagnostics upload, invalid URL: "));
+            //     DBUGLN(location.c_str());
+            //     diagFailure = true;
                 return false;
-            }
+            // }
 
             if (eventLog == NULL) {
                 diagFailure = true;

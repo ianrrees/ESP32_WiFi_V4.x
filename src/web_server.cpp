@@ -1093,10 +1093,11 @@ void handleNotFound(MongooseHttpServerRequest *request)
   }
 }
 
-void onWsFrame(MongooseHttpWebSocketConnection *connection, int flags, uint8_t *data, size_t len)
-{
-  DBUGF("Got message %.*s", len, (const char *)data);
-}
+// TODO
+// void onWsFrame(MongooseHttpWebSocketConnection *connection, int flags, uint8_t *data, size_t len)
+// {
+//   DBUGF("Got message %.*s", len, (const char *)data);
+// }
 
 void
 web_server_setup() {
@@ -1157,12 +1158,13 @@ web_server_setup() {
     request->send(response);
   });
 
-  server.on("/debug/console$")->onFrame([](MongooseHttpWebSocketConnection *connection, int flags, uint8_t *data, size_t len) {
-  });
+  // TODO
+  // server.on("/debug/console$")->onFrame([](MongooseHttpWebSocketConnection *connection, int flags, uint8_t *data, size_t len) {
+  // });
 
   SerialDebug.onWrite([](const uint8_t *buffer, size_t size)
   {
-    server.sendAll("/debug/console", WEBSOCKET_OP_TEXT, buffer, size);
+    // server.sendAll("/debug/console", WEBSOCKET_OP_TEXT, buffer, size);
   });
 
   server.on("/evse$", [](MongooseHttpServerRequest *request) {
@@ -1178,17 +1180,21 @@ web_server_setup() {
     request->send(response);
   });
 
-  server.on("/evse/console$")->onFrame([](MongooseHttpWebSocketConnection *connection, int flags, uint8_t *data, size_t len) {
-  });
+  // TODO
+  // server.on("/evse/console$")->onFrame([](MongooseHttpWebSocketConnection *connection, int flags, uint8_t *data, size_t len) {
+  // });
 
   SerialEvse.onWrite([](const uint8_t *buffer, size_t size) {
-    server.sendAll("/evse/console", WEBSOCKET_OP_TEXT, buffer, size);
+    // TODO
+    // server.sendAll("/evse/console", WEBSOCKET_OP_TEXT, buffer, size);
   });
   SerialEvse.onRead([](const uint8_t *buffer, size_t size) {
-    server.sendAll("/evse/console", WEBSOCKET_OP_TEXT, buffer, size);
+    // TODO
+    // server.sendAll("/evse/console", WEBSOCKET_OP_TEXT, buffer, size);
   });
 
-  server.on("/ws$")->onFrame(onWsFrame);
+  // TODO
+  // server.on("/ws$")->onFrame(onWsFrame);
 
   server.onNotFound(handleNotFound);
 
@@ -1218,5 +1224,6 @@ void web_server_event(JsonDocument &event)
 {
   String json;
   serializeJson(event, json);
-  server.sendAll("/ws", json);
+  // TODO
+  // server.sendAll("/ws", json);
 }

@@ -112,7 +112,8 @@ static void handleUpdateError(MongooseHttpServerRequest *request)
 
 size_t handleUpdateUpload(MongooseHttpServerRequest *request, int ev, MongooseString filename, uint64_t index, uint8_t *data, size_t len)
 {
-  if(MG_EV_HTTP_PART_BEGIN == ev)
+  // TODO
+  // if(MG_EV_HTTP_PART_BEGIN == ev)
   {
 //    dumpRequest(request);
 
@@ -128,7 +129,8 @@ size_t handleUpdateUpload(MongooseHttpServerRequest *request, int ev, MongooseSt
     }
   }
 
-  if(MG_EV_HTTP_PART_END == ev)
+  // TODO
+  // if(MG_EV_HTTP_PART_END == ev)
   {
     if(http_update_end()) {
       upgradeResponse->setCode(200);
